@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+coreTesting = "2.2.0"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -8,19 +9,21 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.2"
 activityCompose = "1.9.0"
 composeBom = "2024.06.00"
-hilt = "2.49"
-composeHiltNavigation = "1.2.0"
-ksp = "2.0.0-1.0.22"
-retrofit2 = "2.9.0"
-okhHttp3 = "4.12.0"
+mockk = "1.12.5"
+retrofit = "2.11.0"
+coroutines = "1.8.1"
+hilt-navigation-compose = "1.2.0"
+hilt = "2.51.1"
+okhHttp = "4.12.0"
 gson = "2.10.1"
-kotlinxCoroutines = "1.7.3"
+navigation-compose = "2.7.7"
+glide = "1.0.0-beta01"
+ksp = "2.0.0-1.0.22"
 
-[bundles]
-network = ["retrofit2.core","retrofit2.rx3adapter","retrofit2.gsonconverter","gson","okhHttp3.core","okhHttp3.interceptor","kotlinx-coroutines-android"]
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -34,19 +37,33 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-compose-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "composeHiltNavigation" }
-hilt-android = {group = "com.google.dagger", name = "hilt-android", version.ref="hilt"}
-hilt-compiler = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref="hilt"}
-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
-retrofit2-core = {group = "com.squareup.retrofit2", name = "retrofit", version.ref="retrofit2"}
-retrofit2-rx3adapter = {group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref="retrofit2"}
-retrofit2-gsonconverter = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref="retrofit2"}
+# Coroutines
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+
+# Navigation Compose
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+
+#unitTesting
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+# Dagger Hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-kapt = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+
+#network
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gsonconverter = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref="retrofit"}
+
+okhHttp-core = {group = "com.squareup.okhttp3", name = "okhttp", version.ref="okhHttp"}
+okhHttp-interceptor = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref="okhHttp"}
 gson = {group = "com.google.code.gson", name = "gson", version.ref="gson"}
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 
-okhHttp3-core = {group = "com.squareup.okhttp3", name = "okhttp", version.ref="okhHttp3"}
-okhHttp3-interceptor = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref="okhHttp3"}
+# Glide
+glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -54,4 +71,6 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+[bundles]
 

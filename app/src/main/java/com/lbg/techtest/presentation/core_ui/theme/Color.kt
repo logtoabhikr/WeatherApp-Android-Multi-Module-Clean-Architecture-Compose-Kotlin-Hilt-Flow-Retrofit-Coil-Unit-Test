@@ -1,4 +1,4 @@
-package com.lbg.techtest.ui.theme
+package com.lbg.techtest.presentation.core_ui.theme
 
 import androidx.compose.ui.graphics.Color
 

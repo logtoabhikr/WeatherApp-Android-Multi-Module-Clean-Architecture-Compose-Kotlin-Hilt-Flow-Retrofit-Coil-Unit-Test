@@ -42,10 +42,11 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
-    composeOptions {
+    /*composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
-    }
+    }*/
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -63,10 +64,18 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.compose.hilt.navigation)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gsonconverter)
+    implementation(libs.okhHttp.core)
+    implementation(libs.okhHttp.interceptor)
+    implementation(libs.gson)
+    implementation(libs.coroutines.android)
+    implementation(libs.coroutines.core)
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.retrofit2.core)
+    ksp(libs.hilt.kapt)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,4 +83,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.core.testing)
 }
