@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+coilCompose = "2.6.0"
 coreTesting = "2.2.0"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
@@ -17,13 +18,13 @@ hilt = "2.51.1"
 okhHttp = "4.12.0"
 gson = "2.10.1"
 navigation-compose = "2.7.7"
-glide = "1.0.0-beta01"
 ksp = "2.0.0-1.0.22"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -62,15 +63,13 @@ okhHttp-core = {group = "com.squareup.okhttp3", name = "okhttp", version.ref="ok
 okhHttp-interceptor = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref="okhHttp"}
 gson = {group = "com.google.code.gson", name = "gson", version.ref="gson"}
 
-# Glide
-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
 

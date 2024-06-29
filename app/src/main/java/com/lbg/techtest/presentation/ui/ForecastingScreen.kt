@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -34,12 +35,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.lbg.techtest.data.entity.Day
-import com.lbg.techtest.data.entity.WeatherEntity
-import com.lbg.techtest.domain.utils.Resource
-import com.lbg.techtest.domain.utils.toast
+import coil.compose.AsyncImage
+import com.lbg.data.utils.Resource
+import com.lbg.data.utils.toast
+import com.lbg.domain.entity.Day
+import com.lbg.domain.entity.WeatherEntity
+import com.lbg.techtest.R
 import com.lbg.techtest.presentation.core_ui.FullScreenLoading
 import com.lbg.techtest.presentation.viewmodel.ForecastingViewModel
 
@@ -79,12 +80,12 @@ fun ForecastingScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
+        LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             forecastedWeatherState.forecast?.forecastday?.let {
                 items(items = it) { forecastDay ->
                     DaysItem(
-                        date = forecastDay.date!!,
-                        days = forecastDay.day!!,
+                        date = forecastDay.date,
+                        days = forecastDay.day,
                         viewModel = viewModel
                     )
                 }
@@ -94,7 +95,6 @@ fun ForecastingScreen(
 }
 
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun DaysItem(
     viewModel: ForecastingViewModel,
@@ -120,7 +120,7 @@ fun DaysItem(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text( //condition
-                    text = days.condition?.text!!,
+                    text = days.condition.text,
                     style = TextStyle(
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onBackground
@@ -128,12 +128,12 @@ fun DaysItem(
                 )
             }
 
-            GlideImage(
+            AsyncImage(
                 contentDescription = "Weather icon",
-                model = "https:${days.condition?.icon}",
-                /*placeholder = painterResource(
+                model = "https:${days.condition.icon}",
+                placeholder = painterResource(
                     id = R.drawable.current_weather
-                ),*/
+                ),
                 modifier = Modifier
                     .height(50.dp)
                     .width(50.dp)

@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "LBGTechTest"
 include(":app")
+include(":data")
+include(":domain")

@@ -2,8 +2,8 @@ package com.lbg.techtest.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lbg.techtest.domain.usecase.ForecastingUseCase
-import com.lbg.techtest.domain.utils.Resource
+import com.lbg.data.utils.Resource
+import com.lbg.domain.usecase.ForecastingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,23 +28,23 @@ class ForecastingViewModel @Inject constructor(private val useCase: ForecastingU
 
         val result = useCase.getForecastingDays()
 
-        if (result.isSuccessful && result.body()!=null)
+        if (result.isSuccessful && result.body() != null)
             result.body()?.let {
                 _state.value = Resource.Success(it)
             }
         else
-            _state.value = Resource.Error("Unknown Error", result.message().toString())
+            _state.value = Resource.Error("Error Occurred!", result.message().toString())
     }
 
     fun parseDateToDay(dateString: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-        val outputFormat = SimpleDateFormat("EEE, dd MMM")
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("EEE, dd MMM",Locale.getDefault())
         val date: Date? = try {
             inputFormat.parse(dateString)
         } catch (e: ParseException) {
             return dateString
         }
-        return outputFormat.format(date)
+        return outputFormat.format(date!!)
     }
 
 }

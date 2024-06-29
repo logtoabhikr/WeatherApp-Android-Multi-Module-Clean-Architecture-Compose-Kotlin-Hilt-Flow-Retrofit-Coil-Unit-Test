@@ -1,7 +1,6 @@
-package com.aliahmed.forecasting
+package com.lbg.techtest
 
-import com.lbg.techtest.InstantTaskExecutorRule
-import com.lbg.techtest.domain.usecase.ForecastingUseCase
+import com.lbg.domain.usecase.ForecastingUseCase
 import com.lbg.techtest.presentation.viewmodel.ForecastingViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +21,6 @@ class ForecastingViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    // Make sure viewModelScope uses a test dispatcher
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     val coroutinesDispatcherRule = MainCoroutineDispatcherRule()
@@ -39,26 +37,21 @@ class ForecastingViewModelTest {
 
     @Test
     fun `parseDateToDay() correctly parses a date string into a day name`() {
-        // Given
         val dateString = "2023-04-09"
         val expectedDayName = "Sun, 09 Apr"
 
-        // When
         val actualDayName = viewModel.parseDateToDay(dateString)
 
-        // Then
         assertEquals(expectedDayName, actualDayName)
     }
 
     @Test
     fun `parseDateToDay() returns the original date string if the date string is invalid`() {
-        // Given
+
         val dateString = "Invalid date string"
 
-        // When
         val actualDayName = viewModel.parseDateToDay(dateString)
 
-        // Then
         assertEquals(dateString, actualDayName)
     }
 }

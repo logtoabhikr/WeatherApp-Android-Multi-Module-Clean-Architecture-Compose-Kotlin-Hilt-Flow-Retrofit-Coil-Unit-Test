@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -36,12 +37,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.lbg.techtest.data.entity.Current
-import com.lbg.techtest.data.entity.WeatherEntity
-import com.lbg.techtest.domain.utils.Resource
-import com.lbg.techtest.domain.utils.toast
+import coil.compose.AsyncImage
+import com.lbg.data.utils.Resource
+import com.lbg.data.utils.toast
+import com.lbg.domain.entity.Current
+import com.lbg.domain.entity.WeatherEntity
+import com.lbg.techtest.R
 import com.lbg.techtest.presentation.core_ui.FullScreenLoading
 import com.lbg.techtest.presentation.viewmodel.WeatherViewModel
 
@@ -99,7 +100,6 @@ fun CurrentWeatherScreen(
     }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HeaderWeather(
     currentWeather: WeatherEntity
@@ -109,9 +109,12 @@ fun HeaderWeather(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        GlideImage(
+        AsyncImage(
             contentDescription = "Weather icon",
             model = "https:${currentWeather.current?.condition?.icon}",
+            placeholder = painterResource(
+                id = R.drawable.current_weather
+            ),
             modifier = Modifier
                 .height(80.dp)
                 .width(80.dp)
@@ -220,7 +223,7 @@ fun HourlyForecasting(hours: List<Current>, viewModel: WeatherViewModel) {
             items(hours) { hour ->
                 HourItem(
                     time = viewModel.parseDateToTime(hour.time.toString()),
-                    icon = "https:${hour.condition?.icon}",
+                    icon = "https:${hour.condition.icon}",
                     temp = hour.tempC.toString()
                 )
 
@@ -231,7 +234,6 @@ fun HourlyForecasting(hours: List<Current>, viewModel: WeatherViewModel) {
 
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HourItem(
     time: String,
@@ -282,12 +284,12 @@ fun HourItem(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            GlideImage(
+            AsyncImage(
                 contentDescription = "Weather icon",
                 model = icon,
-                /*placeholder = painterResource(
+                placeholder = painterResource(
                     id = R.drawable.current_weather
-                ),*/
+                ),
                 modifier = Modifier
                     .height(50.dp)
                     .width(50.dp)
