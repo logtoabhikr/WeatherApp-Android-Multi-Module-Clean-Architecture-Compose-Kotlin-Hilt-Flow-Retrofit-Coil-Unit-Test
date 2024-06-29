@@ -1,9 +1,8 @@
 package com.lbg.data.di
 
 import com.google.gson.GsonBuilder
-import com.lbg.data.di.qualifier.AppBaseUrl
-import com.lbg.data.utils.BaseURL
 import com.lbg.data.network.LBGService
+import com.lbg.data.utils.BaseURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
