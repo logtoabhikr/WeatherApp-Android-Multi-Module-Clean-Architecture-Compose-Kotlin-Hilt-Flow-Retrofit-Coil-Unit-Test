@@ -20,14 +20,18 @@ class WeatherViewModel @Inject constructor(private val weatherUseCase: WeatherUs
 
 
     fun getCurrentWeather() = viewModelScope.launch {
-        _state.value = Resource.Loading()
-        val result = weatherUseCase.getCurrentWeather()
-        if (result.isSuccessful && result.body() != null)
-            result.body()?.let {
-                _state.value = Resource.Success(it)
-            }
-        else
-            _state.value = Resource.Error("Error Occurred!", result.errorBody().toString())
+        try {
+            _state.value = Resource.Loading()
+            val result = weatherUseCase.getCurrentWeather()
+            if (result.body() != null && result.isSuccessful)
+                result.body()?.let {
+                    _state.value = Resource.Success(it)
+                }
+            else
+                _state.value = Resource.Error("Error Occurred!", result.errorBody().toString())
+        } catch (e: Exception) {
+            _state.value = Resource.Error("Error Occurred!", e.message.toString())
+        }
     }
 
     fun parseDateToTime(dateString: String): String {

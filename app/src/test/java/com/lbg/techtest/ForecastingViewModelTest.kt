@@ -45,7 +45,7 @@ class ForecastingViewModelTest {
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         viewModel = ForecastingViewModel(useCase)
     }
 
@@ -95,14 +95,9 @@ class ForecastingViewModelTest {
 
     @Test
     fun `parseDateToDay() correctly parses a date string into a day name`() {
-        coroutinesDispatcherRule.launch {
-            val dateString = "2023-04-09"
-            val expectedDayName = "Sun, 09 Apr"
-
-            val actualDayName = viewModel.parseDateToDay(dateString)
-
-            assertEquals(expectedDayName, actualDayName)
-        }
+        val expectedDayName = "Sun, 09 Apr"
+        val actualDayName = viewModel.parseDateToDay("2023-04-09")
+        assertEquals(expectedDayName, actualDayName)
     }
 
     @Test

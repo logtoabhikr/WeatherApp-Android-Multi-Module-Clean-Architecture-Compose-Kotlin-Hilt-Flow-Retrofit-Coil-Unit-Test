@@ -12,14 +12,11 @@ import io.mockk.mockkConstructor
 import io.mockk.spyk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -51,13 +48,13 @@ class WeatherViewModelTest {
     }
 
     @Test
-    fun `should emit full success response when api response full success`() {
+    fun `should emit success response when api response success`() {
         runTest {
             rule.launch {
                 coEvery { weatherUseCase.getCurrentWeather() } returns mockk()
                 advanceUntilIdle()
                 coEvery { viewModel.getCurrentWeather() }
-                Assert.assertEquals(
+                assertEquals(
                     Resource.Success(Any()),
                     viewModel.state.value
                 )
@@ -68,14 +65,13 @@ class WeatherViewModelTest {
     @Test
     fun `should emit loading response when api response loading`() {
         runTest {
-            val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            val exceptionHandler = CoroutineExceptionHandler { _, _ ->
                 Resource.Success(Any())
             }
-            val scope = CoroutineScope(Dispatchers.Main)
-            scope.launch(exceptionHandler) {
+            rule.launch(exceptionHandler) {
                 coEvery { weatherUseCase.getCurrentWeather() } throws Exception()
                 advanceUntilIdle()
-                Assert.assertEquals(
+                assertEquals(
                     Resource.Success(Any()),
                     viewModel.state.value
                 )
@@ -92,7 +88,7 @@ class WeatherViewModelTest {
             rule.launch(exceptionHandler) {
                 coEvery { weatherUseCase.getCurrentWeather() } throws Exception()
                 advanceUntilIdle()
-                Assert.assertEquals(
+                assertEquals(
                     Resource.Error(message, Any()),
                     viewModel.state.value
                 )

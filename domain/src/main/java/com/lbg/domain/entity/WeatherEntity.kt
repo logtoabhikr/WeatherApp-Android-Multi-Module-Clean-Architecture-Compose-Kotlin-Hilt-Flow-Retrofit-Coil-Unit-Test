@@ -78,10 +78,10 @@ data class Current(
     val dewpointF: Double,
 
     @SerializedName("vis_km")
-    val visKM: Long,
+    val visKM: Double,
 
     @SerializedName("vis_miles")
-    val visMiles: Long,
+    val visMiles: Double,
 
     val uv: Long,
 

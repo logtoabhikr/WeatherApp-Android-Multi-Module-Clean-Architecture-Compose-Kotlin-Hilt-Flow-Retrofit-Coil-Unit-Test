@@ -213,7 +213,7 @@ fun HourlyForecasting(hours: List<Current>, viewModel: WeatherViewModel) {
         Spacer(modifier = Modifier.height(48.dp))
 
         Text(
-            text = "Hourly Status",
+            text = "Hourly Status: New Delhi",
             style = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
         )
 

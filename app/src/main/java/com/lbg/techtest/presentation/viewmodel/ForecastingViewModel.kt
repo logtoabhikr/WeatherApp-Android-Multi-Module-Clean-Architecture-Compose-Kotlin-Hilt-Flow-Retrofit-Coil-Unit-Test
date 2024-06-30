@@ -19,11 +19,10 @@ class ForecastingViewModel @Inject constructor(private val useCase: ForecastingU
     ViewModel() {
 
     private val _state = MutableStateFlow<Resource<Any>>(Resource.Loading())
-    val state: StateFlow<Resource<Any>> = _state
+    val state: StateFlow<Resource<Any>?> = _state
 
 
     fun getForecastedWeather() = viewModelScope.launch {
-
         try {
             _state.value = Resource.Loading()
             val result = useCase.getForecastingDays()
@@ -36,7 +35,6 @@ class ForecastingViewModel @Inject constructor(private val useCase: ForecastingU
         } catch (e: Exception) {
             _state.value = Resource.Error("Error Occurred!", e.message.toString())
         }
-
     }
 
     fun parseDateToDay(dateString: String): String {

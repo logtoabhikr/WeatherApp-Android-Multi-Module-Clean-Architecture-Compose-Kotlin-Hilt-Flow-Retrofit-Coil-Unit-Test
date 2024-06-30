@@ -11,7 +11,7 @@ interface LBGService {
     @GET("forecast.json")
     suspend fun getCurrentWeather(
         @Query("key") key: String = BaseURL.APIKEY,
-        @Query("q") location: String = "London",
+        @Query("q") location: String = "New Delhi",
         @Query("days") days: String = "1",
         @Query("aqi") aqi: String = "no",
         @Query("alerts") alerts: String = "no",
