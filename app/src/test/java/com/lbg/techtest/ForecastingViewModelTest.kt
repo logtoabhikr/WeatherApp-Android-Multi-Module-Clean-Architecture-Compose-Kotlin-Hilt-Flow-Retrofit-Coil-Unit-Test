@@ -1,48 +1,108 @@
 package com.lbg.techtest
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
+import com.lbg.data.utils.Resource
+import com.lbg.domain.entity.WeatherEntity
 import com.lbg.domain.usecase.ForecastingUseCase
 import com.lbg.techtest.presentation.viewmodel.ForecastingViewModel
-import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+import org.junit.rules.TestRule
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
+import retrofit2.HttpException
 
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
 class ForecastingViewModelTest {
 
     @get:Rule
-    val rule = InstantTaskExecutorRule()
+    val testRule: TestRule = InstantTaskExecutorRule()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
-    val coroutinesDispatcherRule = MainCoroutineDispatcherRule()
+    val coroutinesDispatcherRule = MainDispatcherRule()
+
+    @Mock
+    private lateinit var useCase: ForecastingUseCase
+
+    @Mock
+    private lateinit var uiStateObserver: Observer<Resource<WeatherEntity>>
 
     private lateinit var viewModel: ForecastingViewModel
-    private lateinit var useCase: ForecastingUseCase
 
     @Before
     fun setup() {
-        useCase = mockk<ForecastingUseCase>()
+        MockitoAnnotations.initMocks(this)
         viewModel = ForecastingViewModel(useCase)
+    }
 
+    @After
+    fun tearDown() {
+        viewModel.state.asLiveData().removeObserver { uiStateObserver }
+    }
+
+    @Test
+    fun `do call return loading`() {
+        coroutinesDispatcherRule.launch {
+            viewModel.state.asLiveData().observeForever { uiStateObserver }
+            viewModel.getForecastedWeather()
+            Mockito.verify(uiStateObserver).onChanged(Resource.Loading())
+        }
+    }
+
+    @Test
+    fun `do call return error`() {
+        val exception = Mockito.mock(HttpException::class.java)
+        coroutinesDispatcherRule.launch {
+            viewModel.state.asLiveData().observeForever { uiStateObserver }
+            Mockito.`when`(useCase.getForecastingDays()).thenAnswer {
+                Resource.Error("Error Occurred!", exception.message.toString())
+            }
+            viewModel.getForecastedWeather()
+            assertNotNull(viewModel.state.value)
+            assertEquals(Resource.Error("Error Occurred!", Any()), viewModel.state.value)
+        }
+    }
+
+    @Test
+    fun `do call return success`() {
+        runTest {
+            val data = Mockito.mock(WeatherEntity::class.java)
+            coroutinesDispatcherRule.launch {
+                viewModel.state.asLiveData().observeForever { uiStateObserver }
+                Mockito.`when`(useCase.getForecastingDays()).thenAnswer {
+                    Resource.Success(data)
+                }
+                viewModel.getForecastedWeather()
+                assertNotNull(viewModel.state.value)
+                assertEquals(Resource.Success(data), viewModel.state.value)
+            }
+        }
     }
 
     @Test
     fun `parseDateToDay() correctly parses a date string into a day name`() {
-        val dateString = "2023-04-09"
-        val expectedDayName = "Sun, 09 Apr"
+        coroutinesDispatcherRule.launch {
+            val dateString = "2023-04-09"
+            val expectedDayName = "Sun, 09 Apr"
 
-        val actualDayName = viewModel.parseDateToDay(dateString)
+            val actualDayName = viewModel.parseDateToDay(dateString)
 
-        assertEquals(expectedDayName, actualDayName)
+            assertEquals(expectedDayName, actualDayName)
+        }
     }
 
     @Test
@@ -56,17 +116,3 @@ class ForecastingViewModelTest {
     }
 }
 
-@ExperimentalCoroutinesApi
-class MainCoroutineDispatcherRule(private val dispatcher: TestDispatcher = StandardTestDispatcher()) :
-    TestWatcher() {
-
-    override fun starting(description: Description?) {
-        super.starting(description)
-        Dispatchers.setMain(dispatcher)
-    }
-
-    override fun finished(description: Description?) {
-        super.finished(description)
-        Dispatchers.resetMain()
-    }
-}

@@ -15,7 +15,7 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(private val weatherUseCase: WeatherUseCase) :
     ViewModel() {
 
-    private val _state = MutableStateFlow<Resource<Any>?>(null)
+    private val _state = MutableStateFlow<Resource<Any>>(Resource.Loading())
     val state: StateFlow<Resource<Any>?> = _state
 
 

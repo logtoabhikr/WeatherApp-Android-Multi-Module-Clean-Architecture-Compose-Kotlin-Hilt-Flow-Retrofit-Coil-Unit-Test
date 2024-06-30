@@ -18,27 +18,30 @@ import javax.inject.Inject
 class ForecastingViewModel @Inject constructor(private val useCase: ForecastingUseCase) :
     ViewModel() {
 
-    private val _state = MutableStateFlow<Resource<Any>?>(null)
-    val state: StateFlow<Resource<Any>?> = _state
+    private val _state = MutableStateFlow<Resource<Any>>(Resource.Loading())
+    val state: StateFlow<Resource<Any>> = _state
 
 
     fun getForecastedWeather() = viewModelScope.launch {
 
-        _state.value = Resource.Loading()
+        try {
+            _state.value = Resource.Loading()
+            val result = useCase.getForecastingDays()
+            if (result.body() != null && result.isSuccessful)
+                result.body()?.let {
+                    _state.value = Resource.Success(it)
+                }
+            else
+                _state.value = Resource.Error("Error Occurred!", result.message().toString())
+        } catch (e: Exception) {
+            _state.value = Resource.Error("Error Occurred!", e.message.toString())
+        }
 
-        val result = useCase.getForecastingDays()
-
-        if (result.isSuccessful && result.body() != null)
-            result.body()?.let {
-                _state.value = Resource.Success(it)
-            }
-        else
-            _state.value = Resource.Error("Error Occurred!", result.message().toString())
     }
 
     fun parseDateToDay(dateString: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("EEE, dd MMM",Locale.getDefault())
+        val outputFormat = SimpleDateFormat("EEE, dd MMM", Locale.getDefault())
         val date: Date? = try {
             inputFormat.parse(dateString)
         } catch (e: ParseException) {
