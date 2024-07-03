@@ -17,7 +17,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,22 +37,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.lbg.data.utils.Resource
-import com.lbg.data.utils.toast
-import com.lbg.domain.entity.Current
+import com.lbg.domain.entity.CurrentModel
 import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.utils.Constants
+import com.lbg.domain.utils.Resource
+import com.lbg.domain.utils.parseDateToDay
+import com.lbg.domain.utils.toast
 import com.lbg.techtest.R
 import com.lbg.techtest.presentation.core_ui.FullScreenLoading
 import com.lbg.techtest.presentation.viewmodel.WeatherViewModel
+import java.util.Date
 
 @Composable
 fun CurrentWeatherScreen(
     viewModel: WeatherViewModel = hiltViewModel()
 ) {
 
-    LaunchedEffect(key1 = Unit) {
+    /*LaunchedEffect(key1 = Unit) {
         viewModel.getCurrentWeather()
-    }
+    }*/
 
     val state by viewModel.state.collectAsState()
 
@@ -91,8 +93,7 @@ fun CurrentWeatherScreen(
 
             currentWeatherSate.forecast?.forecastday?.get(0)?.hour?.let {
                 HourlyForecasting(
-                    it,
-                    viewModel
+                    it
                 )
             }
 
@@ -110,8 +111,8 @@ fun HeaderWeather(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
-            contentDescription = "Weather icon",
-            model = "https:${currentWeather.current?.condition?.icon}",
+            contentDescription = "",
+            model = "${Constants.SCHEMA_URL}${currentWeather.current?.condition?.icon}",
             placeholder = painterResource(
                 id = R.drawable.current_weather
             ),
@@ -120,13 +121,18 @@ fun HeaderWeather(
                 .width(80.dp)
         )
         Text(
-            text = currentWeather.current?.condition?.text ?: "Loading...",
+            text = currentWeather.current?.condition?.text
+                ?: LocalContext.current.getString(R.string.loading),
             modifier = Modifier,
             style = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "${currentWeather.location?.name ?: ""}, ${currentWeather.location?.country ?: ""}",
+            modifier = Modifier,
+            style = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = buildAnnotatedString {
                 withStyle(
@@ -146,7 +152,7 @@ fun HeaderWeather(
                         fontStyle = FontStyle.Normal,
                     )
                 ) { // AnnotatedString.Builder
-                    append(" o")
+                    append(LocalContext.current.getString(R.string.temp_degree))
                 }
                 withStyle(
                     style = SpanStyle(
@@ -155,7 +161,7 @@ fun HeaderWeather(
                         fontStyle = FontStyle.Normal,
                     )
                 ) {
-                    append("C")
+                    append(LocalContext.current.getString(R.string.temp_celsius))
                 }
             },
             modifier = Modifier,
@@ -164,17 +170,17 @@ fun HeaderWeather(
 
         Row {
             SubItems(
-                title = "Humidity",
+                title = LocalContext.current.getString(R.string.humidity),
                 value = "${currentWeather.current?.humidity ?: ".."}%",
             )
             Spacer(modifier = Modifier.width(8.dp))
             SubItems(
-                title = "UV",
+                title = LocalContext.current.getString(R.string.str_uv),
                 value = (currentWeather.current?.uv ?: "..").toString()
             )
             Spacer(modifier = Modifier.width(8.dp))
             SubItems(
-                title = "Feels Like",
+                title = LocalContext.current.getString(R.string.str_feels_like),
                 value = (currentWeather.current?.feelslikeC ?: "...").toString()
             )
         }
@@ -207,13 +213,13 @@ fun SubItems(
 
 
 @Composable
-fun HourlyForecasting(hours: List<Current>, viewModel: WeatherViewModel) {
+fun HourlyForecasting(hours: List<CurrentModel>) {
 
     Column(modifier = Modifier.padding(16.dp)) {
         Spacer(modifier = Modifier.height(48.dp))
 
         Text(
-            text = "Hourly Status: New Delhi",
+            text = LocalContext.current.getString(R.string.hourly_status),
             style = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
         )
 
@@ -222,8 +228,12 @@ fun HourlyForecasting(hours: List<Current>, viewModel: WeatherViewModel) {
         LazyRow {
             items(hours) { hour ->
                 HourItem(
-                    time = viewModel.parseDateToTime(hour.time.toString()),
-                    icon = "https:${hour.condition.icon}",
+                    time = Date().parseDateToDay(
+                        hour.time.toString(),
+                        Constants.INPUT_DATE_TO_TIME_FORMAT,
+                        Constants.OUTPUT_TIME_FORMAT
+                    ),
+                    icon = "${Constants.SCHEMA_URL}${hour.condition.icon}",
                     temp = hour.tempC.toString()
                 )
 
@@ -266,7 +276,7 @@ fun HourItem(
                             fontStyle = FontStyle.Normal,
                         )
                     ) { // AnnotatedString.Builder
-                        append(" o")
+                        append(LocalContext.current.getString(R.string.temp_degree))
                     }
                     withStyle(
                         style = SpanStyle(
@@ -275,7 +285,7 @@ fun HourItem(
                             fontStyle = FontStyle.Normal,
                         )
                     ) {
-                        append("C")
+                        append(LocalContext.current.getString(R.string.temp_celsius))
                     }
                 },
                 modifier = Modifier,
@@ -285,7 +295,7 @@ fun HourItem(
             Spacer(modifier = Modifier.height(16.dp))
 
             AsyncImage(
-                contentDescription = "Weather icon",
+                contentDescription = LocalContext.current.getString(R.string.weather_icon_description),
                 model = icon,
                 placeholder = painterResource(
                     id = R.drawable.current_weather

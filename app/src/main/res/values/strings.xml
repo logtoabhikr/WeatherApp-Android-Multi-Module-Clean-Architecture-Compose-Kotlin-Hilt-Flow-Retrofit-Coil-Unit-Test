@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">LBGTechTest</string>
+    <string name="hourly_status">Hourly Status</string>
+    <string name="humidity">Humidity</string>
+    <string name="loading">Loading…</string>">
+    <string name="error_message">Error Occurred!</string>
+    <string name="temp_degree"> o</string>
+    <string name="temp_celsius">C</string>
+    <string name="str_uv">UV</string>
+    <string name="str_feels_like">Feels Like</string>
+    <string name="weather_icon_description">Weather icon</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.lbg.data.network
 
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.data.model.WeatherDto
 import com.lbg.data.utils.BaseURL
 import retrofit2.Response
 import retrofit2.http.GET
@@ -15,5 +15,5 @@ interface LBGService {
         @Query("days") days: String = "1",
         @Query("aqi") aqi: String = "no",
         @Query("alerts") alerts: String = "no",
-    ): Response<WeatherEntity>
+    ): Response<WeatherDto>
 }

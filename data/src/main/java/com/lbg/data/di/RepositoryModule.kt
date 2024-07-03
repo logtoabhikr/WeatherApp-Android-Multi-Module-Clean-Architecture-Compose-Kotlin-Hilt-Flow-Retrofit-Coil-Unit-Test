@@ -12,6 +12,6 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoryModule {
 
     @Binds
-    fun providesLBGRepository(impl: LBGRepositoryImpl): LBGRepository
+    fun binLBGRepository(lbgRepositoryImpl: LBGRepositoryImpl): LBGRepository
 
 }

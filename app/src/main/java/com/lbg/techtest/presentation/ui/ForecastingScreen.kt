@@ -16,7 +16,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,22 +35,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.lbg.data.utils.Resource
-import com.lbg.data.utils.toast
-import com.lbg.domain.entity.Day
+import com.lbg.domain.utils.Constants
+import com.lbg.domain.utils.Resource
+import com.lbg.domain.utils.parseDateToDay
+import com.lbg.domain.utils.toast
+import com.lbg.domain.entity.DayModel
 import com.lbg.domain.entity.WeatherEntity
 import com.lbg.techtest.R
 import com.lbg.techtest.presentation.core_ui.FullScreenLoading
 import com.lbg.techtest.presentation.viewmodel.ForecastingViewModel
+import java.util.Date
 
 @Composable
 fun ForecastingScreen(
     viewModel: ForecastingViewModel = hiltViewModel()
 ) {
 
-    LaunchedEffect(key1 = Unit) {
+    /*LaunchedEffect(key1 = Unit) {
         viewModel.getForecastedWeather()
-    }
+    }*/
 
     val state by viewModel.state.collectAsState()
 
@@ -80,13 +82,15 @@ fun ForecastingScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             forecastedWeatherState.forecast?.forecastday?.let {
                 items(items = it) { forecastDay ->
                     DaysItem(
                         date = forecastDay.date,
-                        days = forecastDay.day,
-                        viewModel = viewModel
+                        days = forecastDay.day
                     )
                 }
             }
@@ -97,9 +101,8 @@ fun ForecastingScreen(
 
 @Composable
 fun DaysItem(
-    viewModel: ForecastingViewModel,
     date: String,
-    days: Day
+    days: DayModel
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
 
@@ -110,7 +113,11 @@ fun DaysItem(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text( //date
-                    text = viewModel.parseDateToDay(date),
+                    text = Date().parseDateToDay(
+                        date,
+                        Constants.INPUT_DATE_TO_DAY_FORMAT,
+                        Constants.OUTPUT_DAY_FORMAT
+                    ),
                     style = TextStyle(
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onBackground
@@ -129,8 +136,8 @@ fun DaysItem(
             }
 
             AsyncImage(
-                contentDescription = "Weather icon",
-                model = "https:${days.condition.icon}",
+                contentDescription = LocalContext.current.getString(R.string.weather_icon_description),
+                model = "${Constants.SCHEMA_URL}${days.condition.icon}",
                 placeholder = painterResource(
                     id = R.drawable.current_weather
                 ),
@@ -161,7 +168,7 @@ fun DaysItem(
                                 fontStyle = FontStyle.Normal,
                             )
                         ) { // AnnotatedString.Builder
-                            append("o")
+                            append(LocalContext.current.getString(R.string.temp_degree))
                         }
                     },
                     style = TextStyle(
@@ -191,7 +198,7 @@ fun DaysItem(
                                 fontStyle = FontStyle.Normal,
                             )
                         ) { // AnnotatedString.Builder
-                            append("o")
+                            append(LocalContext.current.getString(R.string.temp_degree))
                         }
                     },
                     style = TextStyle(

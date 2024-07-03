@@ -49,7 +49,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-
     val navController = rememberNavController()
     val topBarTitle = remember {
         mutableStateOf(NavigationItem.CurrentWeather.title)
