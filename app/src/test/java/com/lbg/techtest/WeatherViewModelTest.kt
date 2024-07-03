@@ -51,7 +51,7 @@ class WeatherViewModelTest {
     fun `should emit success response when api response success`() {
         runTest {
             rule.launch {
-                coEvery { weatherUseCase.getCurrentWeather() } returns mockk()
+                coEvery { weatherUseCase.execute() } returns mockk()
                 advanceUntilIdle()
                 coEvery { viewModel.getCurrentWeather() }
                 assertEquals(
@@ -69,7 +69,7 @@ class WeatherViewModelTest {
                 Resource.Success(Any())
             }
             rule.launch(exceptionHandler) {
-                coEvery { weatherUseCase.getCurrentWeather() } throws Exception()
+                coEvery { weatherUseCase.execute() } throws Exception()
                 advanceUntilIdle()
                 assertEquals(
                     Resource.Success(Any()),
@@ -86,7 +86,7 @@ class WeatherViewModelTest {
                 Resource.Error(message, throwable.message.toString())
             }
             rule.launch(exceptionHandler) {
-                coEvery { weatherUseCase.getCurrentWeather() } throws Exception()
+                coEvery { weatherUseCase.execute() } throws Exception()
                 advanceUntilIdle()
                 assertEquals(
                     Resource.Error(message, Any()),

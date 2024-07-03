@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import com.lbg.domain.utils.Resource
 import com.lbg.domain.entity.WeatherEntity
 import com.lbg.domain.usecase.ForecastingUseCase
+import com.lbg.domain.utils.Constants
 import com.lbg.techtest.presentation.viewmodel.ForecastingViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -68,7 +69,7 @@ class ForecastingViewModelTest {
         val exception = Mockito.mock(HttpException::class.java)
         coroutinesDispatcherRule.launch {
             viewModel.state.asLiveData().observeForever { uiStateObserver }
-            Mockito.`when`(useCase.getForecastingDays()).thenAnswer {
+            Mockito.`when`(useCase.execute(ForecastingUseCase.Params(days = ""))).thenAnswer {
                 Resource.Error("Error Occurred!", exception.message.toString())
             }
             viewModel.getForecastedWeather()
@@ -83,7 +84,7 @@ class ForecastingViewModelTest {
             val data = Mockito.mock(WeatherEntity::class.java)
             coroutinesDispatcherRule.launch {
                 viewModel.state.asLiveData().observeForever { uiStateObserver }
-                Mockito.`when`(useCase.getForecastingDays()).thenAnswer {
+                Mockito.`when`(useCase.execute(ForecastingUseCase.Params(days = ""))).thenAnswer {
                     Resource.Success(data)
                 }
                 viewModel.getForecastedWeather()
