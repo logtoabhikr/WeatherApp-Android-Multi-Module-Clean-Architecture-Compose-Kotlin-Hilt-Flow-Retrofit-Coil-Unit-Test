@@ -35,16 +35,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.lbg.domain.utils.Constants
-import com.lbg.domain.utils.Resource
-import com.lbg.domain.utils.parseDateToDay
-import com.lbg.domain.utils.toast
 import com.lbg.domain.entity.DayModel
 import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.utils.Constants
+import com.lbg.domain.utils.Resource
+import com.lbg.domain.utils.parseDateTo
+import com.lbg.domain.utils.toast
 import com.lbg.techtest.R
 import com.lbg.techtest.presentation.core_ui.FullScreenLoading
 import com.lbg.techtest.presentation.viewmodel.ForecastingViewModel
-import java.util.Date
 
 @Composable
 fun ForecastingScreen(
@@ -113,8 +112,7 @@ fun DaysItem(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text( //date
-                    text = Date().parseDateToDay(
-                        date,
+                    text = date.parseDateTo(
                         Constants.INPUT_DATE_TO_DAY_FORMAT,
                         Constants.OUTPUT_DAY_FORMAT
                     ),

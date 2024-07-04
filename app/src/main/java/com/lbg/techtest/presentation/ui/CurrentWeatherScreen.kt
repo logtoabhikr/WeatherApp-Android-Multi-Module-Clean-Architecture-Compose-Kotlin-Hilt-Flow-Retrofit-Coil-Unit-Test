@@ -41,12 +41,11 @@ import com.lbg.domain.entity.CurrentModel
 import com.lbg.domain.entity.WeatherEntity
 import com.lbg.domain.utils.Constants
 import com.lbg.domain.utils.Resource
-import com.lbg.domain.utils.parseDateToDay
+import com.lbg.domain.utils.parseDateTo
 import com.lbg.domain.utils.toast
 import com.lbg.techtest.R
 import com.lbg.techtest.presentation.core_ui.FullScreenLoading
 import com.lbg.techtest.presentation.viewmodel.WeatherViewModel
-import java.util.Date
 
 @Composable
 fun CurrentWeatherScreen(
@@ -228,8 +227,7 @@ fun HourlyForecasting(hours: List<CurrentModel>) {
         LazyRow {
             items(hours) { hour ->
                 HourItem(
-                    time = Date().parseDateToDay(
-                        hour.time.toString(),
+                    time = hour.time.toString().parseDateTo(
                         Constants.INPUT_DATE_TO_TIME_FORMAT,
                         Constants.OUTPUT_TIME_FORMAT
                     ),

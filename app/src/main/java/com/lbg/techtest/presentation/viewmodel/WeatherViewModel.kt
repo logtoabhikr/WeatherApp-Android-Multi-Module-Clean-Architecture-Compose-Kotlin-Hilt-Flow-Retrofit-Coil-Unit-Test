@@ -26,29 +26,14 @@ class WeatherViewModel @Inject constructor(private val weatherUseCase: WeatherUs
     }
 
     fun getCurrentWeather() = viewModelScope.launch {
-        weatherUseCase.execute()
+        weatherUseCase.invoke()
             .collect { response ->
                 when (response) {
                     is Result.Loading -> _state.value = Resource.Loading()
                     is Result.Error -> _state.value = Resource.Error(response.message)
-                    is Result.Success -> {
-                        // if (!response.data.isNullOrEmpty())
-                        _state.value = Resource.Success(response.data)
-                    }
+                    is Result.Success -> _state.value = Resource.Success(response.data)
                 }
             }
-        /*try {
-            _state.value = Resource.Loading()
-            val result = weatherUseCase.getCurrentWeather()
-            if (result.body() != null && result.isSuccessful)
-                result.body()?.let {
-                    _state.value = Resource.Success(it)
-                }
-            else
-                _state.value = Resource.Error("Error Occurred!", result.errorBody().toString())
-        } catch (e: Exception) {
-            _state.value = Resource.Error("Error Occurred!", e.message.toString())
-        }*/
     }
 
 }

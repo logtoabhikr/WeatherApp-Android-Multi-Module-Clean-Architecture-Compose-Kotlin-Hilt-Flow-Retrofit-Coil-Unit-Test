@@ -9,6 +9,7 @@ import com.lbg.domain.utils.Resource
 import com.lbg.domain.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,25 +19,20 @@ class ForecastingViewModel @Inject constructor(private val useCase: ForecastingU
     ViewModel() {
 
     private val _state = MutableStateFlow<Resource<WeatherEntity>>(Resource.Loading())
-    val state get() = _state.asStateFlow()
+    val state: StateFlow<Resource<WeatherEntity>> = _state
 
     init {
         getForecastedWeather()
     }
 
     fun getForecastedWeather() = viewModelScope.launch {
-
-        useCase.execute(ForecastingUseCase.Params(days = Constants.FORECASTING_DAYS))
+        useCase.invoke(Constants.FORECASTING_DAYS)
             .collect { response ->
                 when (response) {
                     is Result.Loading -> _state.value = Resource.Loading()
                     is Result.Error -> _state.value = Resource.Error(response.message)
-                    is Result.Success -> {
-                        // if (!response.data.isNullOrEmpty())
-                        _state.value = Resource.Success(response.data)
-                    }
+                    is Result.Success -> _state.value = Resource.Success(response.data)
                 }
             }
     }
-
 }

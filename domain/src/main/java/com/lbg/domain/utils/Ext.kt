@@ -10,13 +10,13 @@ import java.util.Locale
 fun Context.toast(message: CharSequence) =
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-fun Date.parseDateToDay(dateString: String, input: String, output: String): String {
+fun String.parseDateTo(input: String, output: String): String {
     val inputFormat = SimpleDateFormat(input, Locale.getDefault())
     val outputFormat = SimpleDateFormat(output, Locale.getDefault())
     val date: Date? = try {
-        inputFormat.parse(dateString)
+        inputFormat.parse(this)
     } catch (e: ParseException) {
-        return dateString
+        return this
     }
     return outputFormat.format(date!!)
 }

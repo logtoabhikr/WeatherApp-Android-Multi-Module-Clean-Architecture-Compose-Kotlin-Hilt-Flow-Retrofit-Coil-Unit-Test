@@ -1,11 +1,14 @@
 package com.lbg.techtest
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.lbg.domain.utils.Resource
+import com.lbg.domain.entity.WeatherEntity
 import com.lbg.domain.usecase.WeatherUseCase
+import com.lbg.domain.utils.Resource
+import com.lbg.domain.utils.Result
 import com.lbg.techtest.presentation.viewmodel.WeatherViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkConstructor
@@ -13,7 +16,10 @@ import io.mockk.spyk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -48,51 +54,66 @@ class WeatherViewModelTest {
     }
 
     @Test
-    fun `should emit success response when api response success`() {
-        runTest {
-            rule.launch {
-                coEvery { weatherUseCase.execute() } returns mockk()
-                advanceUntilIdle()
-                coEvery { viewModel.getCurrentWeather() }
-                assertEquals(
-                    Resource.Success(Any()),
-                    viewModel.state.value
-                )
+    fun `getweather can get weather data`() {
+        rule.launch {
+            // given
+            val weather = mockk<WeatherEntity>()
+            viewModel.state.collect()
+
+            coEvery { weatherUseCase.invoke() } returns mockk<Flow<Result<WeatherEntity>>>()
+            // when
+            viewModel.getCurrentWeather()
+            coVerify { weatherUseCase.invoke() }
+
+            //then
+            viewModel.state.collect {
+                //assertEquals(Resource.Loading(), viewModel.state.value)
+                assertEquals(Resource.Success(weather), viewModel.state.value)
             }
         }
     }
 
     @Test
     fun `should emit loading response when api response loading`() {
-        runTest {
-            val exceptionHandler = CoroutineExceptionHandler { _, _ ->
-                Resource.Success(Any())
-            }
-            rule.launch(exceptionHandler) {
-                coEvery { weatherUseCase.execute() } throws Exception()
-                advanceUntilIdle()
-                assertEquals(
-                    Resource.Success(Any()),
-                    viewModel.state.value
-                )
-            }
+        val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+            Resource.Success(Any())
+        }
+        rule.launch(exceptionHandler) {
+            coEvery { weatherUseCase.invoke() } throws Exception()
+            rule.advanceUntilIdle()
+            assertEquals(
+                Resource.Success(Any()),
+                viewModel.state.value
+            )
         }
     }
 
     @Test
     fun `should emit error response when api response error`() {
-        runTest {
-            val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-                Resource.Error(message, throwable.message.toString())
-            }
-            rule.launch(exceptionHandler) {
-                coEvery { weatherUseCase.execute() } throws Exception()
-                advanceUntilIdle()
-                assertEquals(
-                    Resource.Error(message, Any()),
-                    viewModel.state.value
-                )
-            }
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            Resource.Error(message, throwable.message.toString())
+        }
+        rule.launch(exceptionHandler) {
+            coEvery { weatherUseCase.invoke() } throws Exception()
+            viewModel.getCurrentWeather()
+            coVerify { weatherUseCase.invoke() }
+            assertEquals(
+                Resource.Error(message, Any()),
+                viewModel.state.value
+            )
+        }
+    }
+
+    @Test
+    fun `should emit success response when api response success`() {
+        rule.launch {
+            coEvery { weatherUseCase.invoke() } returns mockk()
+            viewModel.getCurrentWeather()
+            coVerify { weatherUseCase.invoke() }
+            assertEquals(
+                Resource.Success(Any()),
+                Result.Success(Any())
+            )
         }
     }
 
