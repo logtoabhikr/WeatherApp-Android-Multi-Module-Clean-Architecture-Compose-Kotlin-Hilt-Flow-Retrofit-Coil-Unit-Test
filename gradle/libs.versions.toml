@@ -7,7 +7,7 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.2"
+lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
 composeBom = "2024.06.00"
 mockitoCore = "4.8.1"
@@ -21,6 +21,7 @@ okhHttp = "4.12.0"
 gson = "2.10.1"
 navigation-compose = "2.7.7"
 ksp = "2.0.0-1.0.22"
+truthVersion = "1.4.3"
 turbine = "1.1.0"
 
 
@@ -28,6 +29,7 @@ turbine = "1.1.0"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+google-truth = { module = "com.google.truth:truth", version.ref = "truthVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -62,11 +64,11 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 
 #network
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-gsonconverter = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref="retrofit"}
+retrofit-gsonconverter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
-okhHttp-core = {group = "com.squareup.okhttp3", name = "okhttp", version.ref="okhHttp"}
-okhHttp-interceptor = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref="okhHttp"}
-gson = {group = "com.google.code.gson", name = "gson", version.ref="gson"}
+okhHttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhHttp" }
+okhHttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhHttp" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]

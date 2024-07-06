@@ -2,9 +2,8 @@ package com.lbg.data.utils
 
 import com.google.gson.JsonParser
 import com.lbg.domain.utils.Constants
+import com.lbg.domain.utils.DispatcherProvider
 import com.lbg.domain.utils.Result
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -16,11 +15,11 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-class NetworkBoundResource @Inject constructor() {
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+class NetworkBoundResource @Inject constructor(private val dispatcherProvider: DispatcherProvider) {
+
 
     suspend fun <ResultType> downloadData(api: suspend () -> Response<ResultType>): Flow<Result<ResultType>> {
-        return withContext(ioDispatcher) {
+        return withContext(dispatcherProvider.io) {
             flow {
                 emit(Result.Loading)
                 val response: Response<ResultType> = api()

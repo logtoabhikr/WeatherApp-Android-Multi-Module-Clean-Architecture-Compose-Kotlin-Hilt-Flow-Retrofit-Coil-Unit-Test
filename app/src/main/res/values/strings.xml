@@ -3,7 +3,6 @@
     <string name="hourly_status">Hourly Status</string>
     <string name="humidity">Humidity</string>
     <string name="loading">Loading…</string>">
-    <string name="error_message">Error Occurred!</string>
     <string name="temp_degree"> o</string>
     <string name="temp_celsius">C</string>
     <string name="str_uv">UV</string>

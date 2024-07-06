@@ -3,6 +3,8 @@ package com.lbg.data.di
 import com.google.gson.GsonBuilder
 import com.lbg.data.network.LBGService
 import com.lbg.data.utils.BaseURL
+import com.lbg.domain.utils.DefaultDispatcherProvider
+import com.lbg.domain.utils.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,4 +74,6 @@ object LBGModule {
             .setLenient().create()
         return GsonConverterFactory.create(gson)
     }
+    @Provides
+    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 }

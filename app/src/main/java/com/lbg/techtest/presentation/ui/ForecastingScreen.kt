@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,9 +51,9 @@ fun ForecastingScreen(
     viewModel: ForecastingViewModel = hiltViewModel()
 ) {
 
-    /*LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = Unit) {
         viewModel.getForecastedWeather()
-    }*/
+    }
 
     val state by viewModel.state.collectAsState()
 

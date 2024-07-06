@@ -6,7 +6,9 @@ import com.lbg.domain.utils.Result
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ForecastingUseCase @Inject constructor(private val repository: LBGRepository) {
+class ForecastingUseCase @Inject constructor(
+    private val repository: LBGRepository,
+) {
     suspend operator fun invoke(days: String): Flow<Result<WeatherEntity>> =
         repository.getForecasting(days = days)
 }
