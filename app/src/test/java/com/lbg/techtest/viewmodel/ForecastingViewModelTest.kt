@@ -47,27 +47,40 @@ class ForecastingViewModelTest {
     @Test
     fun `do call return loading`() {
         runTest {
-            // Arrange
+
             Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
                 flow { emit(Result.Loading) }
             )
-            // Act
+
             viewModel.getForecastedWeather()
-            // Assert
+
             assertTrue(viewModel.state.value is Resource.Loading)
         }
     }
 
     @Test
     fun `do call return error`() {
+        runTest {
+            Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
+                flow { emit(Result.Error("", 0)) }
+            )
+
+            viewModel.getForecastedWeather()
+
+            assertTrue(viewModel.state.value is Resource.Error)
+        }
+    }
+
+    @Test
+    fun `do call return exception`() {
         val exception = Mockito.mock(HttpException::class.java)
         runTest {
             Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
                 flow { emit(Result.Error(exception.message(), exception.code())) }
             )
-            // Act
+
             viewModel.getForecastedWeather()
-            // Assert
+
             assertTrue(viewModel.state.value is Resource.Error)
         }
     }
@@ -79,9 +92,9 @@ class ForecastingViewModelTest {
             Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
                 flow { emit(Result.Success(mockResponse)) }
             )
-            // Act
+
             viewModel.getForecastedWeather()
-            // Assert
+
             assertTrue(viewModel.state.value is Resource.Success)
         }
     }

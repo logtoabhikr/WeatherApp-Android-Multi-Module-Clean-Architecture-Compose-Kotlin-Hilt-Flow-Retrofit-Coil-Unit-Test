@@ -1,6 +1,7 @@
 package com.lbg.data.di
 
 import com.google.gson.GsonBuilder
+import com.google.gson.Strictness
 import com.lbg.data.network.LBGService
 import com.lbg.data.utils.BaseURL
 import com.lbg.domain.utils.DefaultDispatcherProvider
@@ -23,8 +24,8 @@ object LBGModule {
     @Singleton
     fun provideLoggerInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.HEADERS }
-        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.BODY }
+        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.NONE }
+        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.NONE }
         return interceptor
     }
 
@@ -71,7 +72,8 @@ object LBGModule {
         val gson = GsonBuilder().enableComplexMapKeySerialization()
             .serializeNulls()
             .setPrettyPrinting()
-            .setLenient().create()
+            .setStrictness(Strictness.LENIENT)
+            .create()
         return GsonConverterFactory.create(gson)
     }
     @Provides

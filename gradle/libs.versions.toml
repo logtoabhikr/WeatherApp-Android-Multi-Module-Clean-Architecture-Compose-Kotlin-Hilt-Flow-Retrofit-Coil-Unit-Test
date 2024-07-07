@@ -10,19 +10,18 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
 composeBom = "2024.06.00"
-mockitoCore = "4.8.1"
-mockitoInline = "4.8.1"
-mockk = "1.12.5"
+mockitoCore = "5.12.0"
+mockitoKotlin = "5.3.1"
+mockk = "1.13.11"
 retrofit = "2.11.0"
 coroutines = "1.8.1"
 hilt-navigation-compose = "1.2.0"
 hilt = "2.51.1"
 okhHttp = "4.12.0"
-gson = "2.10.1"
+gson = "2.11.0"
 navigation-compose = "2.7.7"
 ksp = "2.0.0-1.0.22"
 truthVersion = "1.4.3"
-turbine = "1.1.0"
 
 
 [libraries]
@@ -49,13 +48,13 @@ coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 
 # Navigation Compose
-mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
-mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 
 #unitTesting
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 
 # Dagger Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -69,7 +68,6 @@ retrofit-gsonconverter = { group = "com.squareup.retrofit2", name = "converter-g
 okhHttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhHttp" }
 okhHttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhHttp" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -50,24 +50,50 @@ class WeatherViewModelTest {
     @Test
     fun `do call return loading`() {
         runTest {
-            // Arrange
+
             coEvery { weatherUseCase.invoke() } returns flow { emit(Result.Loading) }
-            // Act
+
             viewModel.getCurrentWeather()
-            // Assert
+
             assertTrue(viewModel.state.value is Resource.Loading)
         }
     }
 
     @Test
     fun `do call return error`() {
+        runTest {
+
+            coEvery { weatherUseCase.invoke() } returns flow {
+                emit(
+                    Result.Error(
+                        "",
+                        0
+                    )
+                )
+            }
+
+            viewModel.getCurrentWeather()
+
+            assertTrue(viewModel.state.value is Resource.Error)
+        }
+    }
+
+    @Test
+    fun `do call return exception`() {
         val exception = Mockito.mock(HttpException::class.java)
         runTest {
-            // Arrange
-            coEvery { weatherUseCase.invoke() } returns flow { emit(Result.Error(exception.message(), exception.code())) }
-            // Act
+
+            coEvery { weatherUseCase.invoke() } returns flow {
+                emit(
+                    Result.Error(
+                        exception.message(),
+                        exception.code()
+                    )
+                )
+            }
+
             viewModel.getCurrentWeather()
-            // Assert
+
             assertTrue(viewModel.state.value is Resource.Error)
         }
     }
@@ -75,12 +101,12 @@ class WeatherViewModelTest {
     @Test
     fun `do call return success`() {
         val weather = mockk<WeatherEntity>()
-        // Arrange
+
         runTest {
             coEvery { weatherUseCase.invoke() } returns flow { emit(Result.Success(weather)) }
-            // Act
+
             viewModel.getCurrentWeather()
-            // Assert
+
             assertTrue(viewModel.state.value is Resource.Success)
         }
     }
