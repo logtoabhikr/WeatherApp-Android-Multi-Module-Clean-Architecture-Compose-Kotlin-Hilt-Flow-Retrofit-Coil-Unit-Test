@@ -8,7 +8,6 @@ import com.lbg.domain.provideWeatherModel
 import com.lbg.domain.repository.LBGRepository
 import com.lbg.domain.utils.Constants
 import com.lbg.domain.utils.Result
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -42,10 +41,8 @@ class WeatherUseCaseTest {
     fun `invoke should return success`() = runTest {
         val weatherDto = provideWeatherDto()
         val weatherModel = provideWeatherModel()
-
         `when`(lbgRepository.getCurrentWeather()).thenReturn(flow { emit(Result.Success(weatherDto)) })
-        Mockito.`when`(weatherMapper.mapFrom(weatherDto)).thenReturn(weatherModel)
-
+        `when`(weatherMapper.mapFrom(weatherDto)).thenReturn(weatherModel)
         val state = MutableStateFlow<Result<WeatherModel>>(Result.Success(weatherModel))
         weatherUseCase.invoke().collect()
         {
@@ -56,7 +53,6 @@ class WeatherUseCaseTest {
 
     @Test
     fun `invoke should return error`() = runTest {
-
         val errorResponse = Mockito.mock(HttpException::class.java)
         `when`(lbgRepository.getCurrentWeather()).thenReturn(flow {
             emit(
@@ -66,7 +62,6 @@ class WeatherUseCaseTest {
                 )
             )
         })
-
         val state = MutableStateFlow<Result<WeatherModel>>(
             Result.Error(
                 Constants.UNKNOWN_ERROR,
@@ -77,7 +72,6 @@ class WeatherUseCaseTest {
         {
             state.value = it
         }
-
         Truth.assertThat(state.value is Result.Error).isTrue()
         Truth.assertThat(errorResponse.code()).isEqualTo((state.value as Result.Error).code)
         Truth.assertThat(Constants.UNKNOWN_ERROR).isEqualTo((state.value as Result.Error).message)

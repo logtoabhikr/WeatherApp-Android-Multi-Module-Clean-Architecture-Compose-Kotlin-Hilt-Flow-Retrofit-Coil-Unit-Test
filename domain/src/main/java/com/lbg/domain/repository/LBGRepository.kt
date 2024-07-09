@@ -1,7 +1,6 @@
 package com.lbg.domain.repository
 
 import com.lbg.domain.entity.WeatherDto
-import com.lbg.domain.model.WeatherModel
 import com.lbg.domain.utils.Result
 import kotlinx.coroutines.flow.Flow
 
