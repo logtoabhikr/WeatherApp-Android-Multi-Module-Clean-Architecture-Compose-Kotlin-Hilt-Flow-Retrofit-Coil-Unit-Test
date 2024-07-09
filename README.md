@@ -2,12 +2,12 @@
 The Clean Architecture is a software design pattern that separates the business logic from the presentation layer. This makes the application more modular and easier to test.
 
 This Test project will demonstrate following:
-1> Kotlin Programming Language
-2> Jetpack Compose
-3> MVVM
-4> Multi-Module with Clean Architectre
-5> Kotlin features - Extensions, Couroutine, Flow, DI(Hilt)
-6> Unit Testing (ViewModel, Repo, UseCases, Mapper) using Junit4, Mockk, Mockito
+- 1> Kotlin Programming Language
+- 2> Jetpack Compose
+- 3> MVVM
+- 4> Multi-Module with Clean Architectre
+- 5> Kotlin features - Extensions, Couroutine, Flow, DI(Hilt)
+- 6> Unit Testing (ViewModel, Repo, UseCases, Mapper) using Junit4, Mockk, Mockito
 
 ### Screenshots
 
