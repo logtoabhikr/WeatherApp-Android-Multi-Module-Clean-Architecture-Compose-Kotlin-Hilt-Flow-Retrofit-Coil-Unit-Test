@@ -76,6 +76,7 @@ object LBGModule {
             .create()
         return GsonConverterFactory.create(gson)
     }
+
     @Provides
     fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 }

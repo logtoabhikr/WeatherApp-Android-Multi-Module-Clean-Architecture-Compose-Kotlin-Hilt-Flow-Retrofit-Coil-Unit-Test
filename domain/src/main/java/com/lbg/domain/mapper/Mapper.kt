@@ -1,29 +1,28 @@
-package com.lbg.data.mapper
+package com.lbg.domain.mapper
 
-import com.lbg.data.model.Condition
-import com.lbg.data.model.Current
-import com.lbg.data.model.Day
-import com.lbg.data.model.Forecast
-import com.lbg.data.model.Forecastday
-import com.lbg.data.model.Location
-import com.lbg.data.model.WeatherDto
-import com.lbg.data.utils.Mapper
-import com.lbg.domain.entity.ConditionModel
-import com.lbg.domain.entity.CurrentModel
-import com.lbg.domain.entity.DayModel
-import com.lbg.domain.entity.ForecastModel
-import com.lbg.domain.entity.ForecastdayModel
-import com.lbg.domain.entity.LocationModel
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.entity.Condition
+import com.lbg.domain.entity.Current
+import com.lbg.domain.entity.Day
+import com.lbg.domain.entity.Forecast
+import com.lbg.domain.entity.Forecastday
+import com.lbg.domain.entity.Location
+import com.lbg.domain.entity.WeatherDto
+import com.lbg.domain.utils.Mapper
+import com.lbg.domain.model.ConditionModel
+import com.lbg.domain.model.CurrentModel
+import com.lbg.domain.model.DayModel
+import com.lbg.domain.model.ForecastModel
+import com.lbg.domain.model.ForecastdayModel
+import com.lbg.domain.model.LocationModel
+import com.lbg.domain.model.WeatherModel
 import javax.inject.Inject
 
-//mapper for WeatherDto
-class WeatherMapper @Inject constructor() : Mapper<WeatherDto, WeatherEntity> {
-    override fun mapFrom(from: WeatherDto): WeatherEntity {
-        return WeatherEntity(
-            location = from.location?.let { LocationModelMapper().mapFrom(it) },
-            current = from.current?.let { CurrentModelMapper().mapFrom(it) },
-            forecast = from.forecast?.let { ForecastModelMapper().mapFrom(it) }
+class WeatherMapper @Inject constructor() : Mapper<WeatherDto?, WeatherModel> {
+    override fun mapFrom(from: WeatherDto?): WeatherModel {
+        return WeatherModel(
+            location = from?.location?.let { LocationModelMapper().mapFrom(it) },
+            current = from?.current?.let { CurrentModelMapper().mapFrom(it) },
+            forecast = from?.forecast?.let { ForecastModelMapper().mapFrom(it) }
         )
     }
 }

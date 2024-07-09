@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 class NetworkBoundResource @Inject constructor(private val dispatcherProvider: DispatcherProvider) {
 
-
     suspend fun <ResultType> downloadData(api: suspend () -> Response<ResultType>): Flow<Result<ResultType>> {
         return withContext(dispatcherProvider.io) {
             flow {

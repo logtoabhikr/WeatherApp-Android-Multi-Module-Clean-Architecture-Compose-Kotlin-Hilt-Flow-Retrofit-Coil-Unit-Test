@@ -2,7 +2,7 @@ package com.lbg.techtest.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.model.WeatherModel
 import com.lbg.domain.usecase.ForecastingUseCase
 import com.lbg.domain.utils.Constants
 import com.lbg.domain.utils.DispatcherProvider
@@ -23,8 +23,8 @@ class ForecastingViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _state = MutableStateFlow<Resource<WeatherEntity>>(Resource.Loading())
-    val state: StateFlow<Resource<WeatherEntity>> = _state
+    private val _state = MutableStateFlow<Resource<WeatherModel>>(Resource.Loading())
+    val state: StateFlow<Resource<WeatherModel>> = _state
 
     fun getForecastedWeather() = viewModelScope.launch(dispatcherProvider.main) {
         useCase.invoke(Constants.FORECASTING_DAYS)

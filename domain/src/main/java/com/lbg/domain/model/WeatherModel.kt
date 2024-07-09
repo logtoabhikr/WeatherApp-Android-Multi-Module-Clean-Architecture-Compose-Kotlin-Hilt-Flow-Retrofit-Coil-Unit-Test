@@ -1,6 +1,6 @@
-package com.lbg.domain.entity
+package com.lbg.domain.model
 
-data class WeatherEntity(
+data class WeatherModel(
     val location: LocationModel? = null,
     val current: CurrentModel? = null,
     val forecast: ForecastModel? = null

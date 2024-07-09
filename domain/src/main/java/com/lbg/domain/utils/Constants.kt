@@ -1,6 +1,7 @@
 package com.lbg.domain.utils
 
 object Constants {
+    const val LOCATION_PARAM = "New Delhi"
     const val WEATHER_TITLE = "Current Weather"
     const val FORECAST_TITLE = "Forecasting"
     const val INPUT_DATE_TO_DAY_FORMAT = "yyyy-MM-dd"

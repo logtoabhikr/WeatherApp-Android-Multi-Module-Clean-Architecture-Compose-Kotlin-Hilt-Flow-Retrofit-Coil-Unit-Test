@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.lbg.domain.entity.CurrentModel
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.model.CurrentModel
+import com.lbg.domain.model.WeatherModel
 import com.lbg.domain.utils.Constants
 import com.lbg.domain.utils.Resource
 import com.lbg.domain.utils.parseDateTo
@@ -60,7 +60,7 @@ fun CurrentWeatherScreen(
     val state by viewModel.state.collectAsState()
 
     var currentWeatherSate by remember {
-        mutableStateOf(WeatherEntity())
+        mutableStateOf(WeatherModel())
     }
 
     when (val pageState = state) {
@@ -74,7 +74,7 @@ fun CurrentWeatherScreen(
 
         is Resource.Success -> {
             if (pageState.data != null)
-                currentWeatherSate = pageState.data as WeatherEntity
+                currentWeatherSate = pageState.data as WeatherModel
         }
 
         else -> {}
@@ -103,7 +103,7 @@ fun CurrentWeatherScreen(
 
 @Composable
 fun HeaderWeather(
-    currentWeather: WeatherEntity
+    currentWeather: WeatherModel
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),

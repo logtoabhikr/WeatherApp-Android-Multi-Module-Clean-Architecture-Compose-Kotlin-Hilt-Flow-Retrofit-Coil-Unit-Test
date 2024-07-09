@@ -1,6 +1,5 @@
-package com.lbg.data.utils
+package com.lbg.domain.utils
 
-import com.lbg.domain.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

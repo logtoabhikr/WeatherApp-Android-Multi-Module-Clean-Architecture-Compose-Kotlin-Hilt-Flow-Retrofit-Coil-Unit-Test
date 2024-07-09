@@ -1,6 +1,7 @@
 package com.lbg.techtest.viewmodel
 
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.mapper.WeatherMapper
+import com.lbg.domain.model.WeatherModel
 import com.lbg.domain.repository.LBGRepository
 import com.lbg.domain.usecase.ForecastingUseCase
 import com.lbg.domain.utils.Constants
@@ -25,13 +26,14 @@ import retrofit2.HttpException
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
 class ForecastingViewModelTest {
-
     @Mock
     private lateinit var repository: LBGRepository
 
     @Mock
     private lateinit var useCase: ForecastingUseCase
 
+    @Mock
+    private lateinit var weatherMapper: WeatherMapper
     private lateinit var dispatcherProvider: DispatcherProvider
     private lateinit var viewModel: ForecastingViewModel
 
@@ -39,7 +41,7 @@ class ForecastingViewModelTest {
     fun setup() {
         MockitoAnnotations.openMocks(this)
         dispatcherProvider = TestDispatcherProvider()
-        useCase = ForecastingUseCase(repository)
+        useCase = ForecastingUseCase(repository, weatherMapper)
         viewModel = ForecastingViewModel(useCase, dispatcherProvider)
     }
 
@@ -47,13 +49,10 @@ class ForecastingViewModelTest {
     @Test
     fun `do call return loading`() {
         runTest {
-
             Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
                 flow { emit(Result.Loading) }
             )
-
             viewModel.getForecastedWeather()
-
             assertTrue(viewModel.state.value is Resource.Loading)
         }
     }
@@ -64,9 +63,7 @@ class ForecastingViewModelTest {
             Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
                 flow { emit(Result.Error("", 0)) }
             )
-
             viewModel.getForecastedWeather()
-
             assertTrue(viewModel.state.value is Resource.Error)
         }
     }
@@ -78,25 +75,20 @@ class ForecastingViewModelTest {
             Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
                 flow { emit(Result.Error(exception.message(), exception.code())) }
             )
-
             viewModel.getForecastedWeather()
-
             assertTrue(viewModel.state.value is Resource.Error)
         }
     }
 
     @Test
     fun `do call return success`() {
-        val mockResponse = Mockito.mock(WeatherEntity::class.java)
+        val mockResponse = Mockito.mock(WeatherModel::class.java)
         runTest {
             Mockito.`when`(useCase.invoke(Constants.FORECASTING_DAYS)).thenReturn(
                 flow { emit(Result.Success(mockResponse)) }
             )
-
             viewModel.getForecastedWeather()
-
             assertTrue(viewModel.state.value is Resource.Success)
         }
     }
 }
-

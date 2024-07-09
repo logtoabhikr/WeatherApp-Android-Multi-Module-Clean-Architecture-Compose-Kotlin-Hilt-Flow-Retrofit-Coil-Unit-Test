@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.lbg.domain.entity.DayModel
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.model.DayModel
+import com.lbg.domain.model.WeatherModel
 import com.lbg.domain.utils.Constants
 import com.lbg.domain.utils.Resource
 import com.lbg.domain.utils.parseDateTo
@@ -58,7 +58,7 @@ fun ForecastingScreen(
     val state by viewModel.state.collectAsState()
 
     var forecastedWeatherState by remember {
-        mutableStateOf(WeatherEntity())
+        mutableStateOf(WeatherModel())
     }
 
     when (val pageState = state) {
@@ -72,7 +72,7 @@ fun ForecastingScreen(
 
         is Resource.Success -> {
             if (pageState.data != null)
-                forecastedWeatherState = pageState.data as WeatherEntity
+                forecastedWeatherState = pageState.data as WeatherModel
         }
 
         else -> {}

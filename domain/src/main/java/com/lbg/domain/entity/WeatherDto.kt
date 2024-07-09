@@ -1,4 +1,4 @@
-package com.lbg.data.model
+package com.lbg.domain.entity
 
 import com.google.gson.annotations.SerializedName
 

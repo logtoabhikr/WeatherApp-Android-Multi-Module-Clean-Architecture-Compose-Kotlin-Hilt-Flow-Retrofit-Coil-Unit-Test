@@ -2,7 +2,7 @@ package com.lbg.techtest.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.model.WeatherModel
 import com.lbg.domain.usecase.WeatherUseCase
 import com.lbg.domain.utils.DispatcherProvider
 import com.lbg.domain.utils.Resource
@@ -24,8 +24,8 @@ class WeatherViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _state = MutableStateFlow<Resource<WeatherEntity>>(Resource.Loading())
-    val state: StateFlow<Resource<WeatherEntity>> get() = _state.asStateFlow()
+    private val _state = MutableStateFlow<Resource<WeatherModel>>(Resource.Loading())
+    val state: StateFlow<Resource<WeatherModel>> get() = _state.asStateFlow()
 
     fun getCurrentWeather() = viewModelScope.launch(dispatcherProvider.main) {
         weatherUseCase.invoke()

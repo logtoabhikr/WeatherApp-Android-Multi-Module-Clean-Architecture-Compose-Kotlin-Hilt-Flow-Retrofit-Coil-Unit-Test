@@ -1,6 +1,7 @@
 package com.lbg.techtest.viewmodel
 
-import com.lbg.domain.entity.WeatherEntity
+import com.lbg.domain.mapper.WeatherMapper
+import com.lbg.domain.model.WeatherModel
 import com.lbg.domain.repository.LBGRepository
 import com.lbg.domain.usecase.WeatherUseCase
 import com.lbg.domain.utils.DispatcherProvider
@@ -28,13 +29,14 @@ import retrofit2.HttpException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class WeatherViewModelTest {
-
     @MockK
     private lateinit var repository: LBGRepository
 
     @MockK
     private lateinit var weatherUseCase: WeatherUseCase
 
+    @MockK
+    private lateinit var weatherMapper: WeatherMapper
     private lateinit var dispatcherProvider: DispatcherProvider
     private lateinit var viewModel: WeatherViewModel
 
@@ -43,18 +45,15 @@ class WeatherViewModelTest {
         MockKAnnotations.init(this)
         mockkConstructor(Regex::class, CoroutineExceptionHandler::class, Throwable::class)
         dispatcherProvider = TestDispatcherProvider()
-        weatherUseCase = spyk(WeatherUseCase(repository))
+        weatherUseCase = spyk(WeatherUseCase(repository, weatherMapper))
         viewModel = spyk(WeatherViewModel(weatherUseCase, dispatcherProvider))
     }
 
     @Test
     fun `do call return loading`() {
         runTest {
-
             coEvery { weatherUseCase.invoke() } returns flow { emit(Result.Loading) }
-
             viewModel.getCurrentWeather()
-
             assertTrue(viewModel.state.value is Resource.Loading)
         }
     }
@@ -62,7 +61,6 @@ class WeatherViewModelTest {
     @Test
     fun `do call return error`() {
         runTest {
-
             coEvery { weatherUseCase.invoke() } returns flow {
                 emit(
                     Result.Error(
@@ -71,9 +69,7 @@ class WeatherViewModelTest {
                     )
                 )
             }
-
             viewModel.getCurrentWeather()
-
             assertTrue(viewModel.state.value is Resource.Error)
         }
     }
@@ -82,7 +78,6 @@ class WeatherViewModelTest {
     fun `do call return exception`() {
         val exception = Mockito.mock(HttpException::class.java)
         runTest {
-
             coEvery { weatherUseCase.invoke() } returns flow {
                 emit(
                     Result.Error(
@@ -91,7 +86,6 @@ class WeatherViewModelTest {
                     )
                 )
             }
-
             viewModel.getCurrentWeather()
 
             assertTrue(viewModel.state.value is Resource.Error)
@@ -100,13 +94,10 @@ class WeatherViewModelTest {
 
     @Test
     fun `do call return success`() {
-        val weather = mockk<WeatherEntity>()
-
+        val weather = mockk<WeatherModel>()
         runTest {
             coEvery { weatherUseCase.invoke() } returns flow { emit(Result.Success(weather)) }
-
             viewModel.getCurrentWeather()
-
             assertTrue(viewModel.state.value is Resource.Success)
         }
     }
@@ -115,6 +106,4 @@ class WeatherViewModelTest {
     fun tearDown() {
         unmockkAll()
     }
-
-
 }
