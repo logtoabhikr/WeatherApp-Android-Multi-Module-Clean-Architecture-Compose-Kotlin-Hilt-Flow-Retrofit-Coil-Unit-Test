@@ -1,1 +1,1 @@
-A Multi-Module Android App with Compose, Clean Architecture, MVVM, Hilt, Retrofit
+Android-Multi-Module-Clean-Architecture-Jetpack-Compose-Kotlin-Hilt-Retrofit-Flow-Coil
