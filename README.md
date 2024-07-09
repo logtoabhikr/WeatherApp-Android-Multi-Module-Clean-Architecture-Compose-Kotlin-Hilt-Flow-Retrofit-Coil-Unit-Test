@@ -11,7 +11,7 @@ This Test project will demonstrate following:
 
 ### Screenshots
 
-<img src="https://github.com/logtoabhikr/LBGTest/assets/15189168/ed11d4b4-49b7-4659-a984-6b19b50e01c2.png" width="240" height="400">  <img src="https://github.com/logtoabhikr/LBGTest/assets/15189168/5d8e312e-7a0b-483e-95c0-52f31c9d1285.png" width="240" height="400">
+        <img src="https://github.com/logtoabhikr/LBGTest/assets/15189168/ed11d4b4-49b7-4659-a984-6b19b50e01c2.png" width="240" height="400">               <img src="https://github.com/logtoabhikr/LBGTest/assets/15189168/5d8e312e-7a0b-483e-95c0-52f31c9d1285.png" width="240" height="400">
 
 
 
