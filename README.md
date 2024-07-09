@@ -1,13 +1,17 @@
 # Android-Multi-Module-Clean-Architecture-Jetpack-Compose-Kotlin-Hilt-Retrofit-Flow-Coil
 The Clean Architecture is a software design pattern that separates the business logic from the presentation layer. This makes the application more modular and easier to test.
 
-This Test project will demonstrate,
+This Test project will demonstrate following:
 1> Kotlin Programming Language
 2> Jetpack Compose
 3> MVVM
 4> Multi-Module with Clean Architectre
 5> Kotlin features - Extensions, Couroutine, Flow, DI(Hilt)
 6> Unit Testing (ViewModel, Repo, UseCases, Mapper) using Junit4, Mockk, Mockito
+
+![Screenshot_1720514566](https://github.com/logtoabhikr/LBGTest/assets/15189168/ed11d4b4-49b7-4659-a984-6b19b50e01c2) ![Screenshot_1720516237](https://github.com/logtoabhikr/LBGTest/assets/15189168/5d8e312e-7a0b-483e-95c0-52f31c9d1285)
+
+
 
 ### Features
 - Get current weather for specific city (Ex: New Delhi)
