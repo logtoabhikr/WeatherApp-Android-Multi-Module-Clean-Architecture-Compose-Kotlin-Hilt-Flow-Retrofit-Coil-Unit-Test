@@ -35,7 +35,7 @@ The tools I have used to gain the Android Clean Architecture are:
 - <b> Jetpack Compose Navigation : </b> Jetpack Compose Navigation is a declarative navigation library that makes it easy to navigate between different screens in your app. It is declarative, meaning that you can describe your navigation in terms of what you want to happen, rather than how you want it to happen. This makes it easy to create complex navigation flows with less code.
 - <b> Kotlin Flow :</b> In coroutines, a flow is a type that can emit multiple values sequentially, as opposed to suspend functions that return only a single value. (https://developer.android.com/kotlin/flow)
 - <b> Retrofit :</b> Network calling library (https://square.github.io/retrofit/)
-- <b> Coil :<b> Coil is a powerful, fast, lightweight image-loading library that many Android developers have used for years.
+- <b> Coil :</b> Coil is a powerful, fast, lightweight image-loading library that many Android developers have used for years.
 - <b> Unit Testing:</b> Unit Testing is a software testing technique that is used to verify the correctness of individual units of code. I have used Junit4, Mockk and Mockito for the unit testing purspose.
 
 
@@ -43,5 +43,6 @@ The tools I have used to gain the Android Clean Architecture are:
 #### API Specification
 For this repository I have used a public weather api. Here is the link: (https://www.weatherapi.com/)
 
-# Abhishek Kumar - Creative Android application developer.
+
+Abhishek Kumar - A Creative Android application developer.
 
