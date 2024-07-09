@@ -43,5 +43,5 @@ The tools I have used to gain the Android Clean Architecture are:
 #### API Specification
 For this repository I have used a public weather api. Here is the link: (https://www.weatherapi.com/)
 
-#Abhishek Kumar - Creative Android application developer.
+# Abhishek Kumar - Creative Android application developer.
 
