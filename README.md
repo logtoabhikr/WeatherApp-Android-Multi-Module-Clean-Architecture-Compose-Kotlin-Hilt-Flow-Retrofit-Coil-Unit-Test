@@ -1,6 +1,8 @@
 # WeatherApp-Android-Multi-Module-Clean-Architecture-Mvvm-Compose-Kotlin-Hilt-Flow-Retrofit-Coil-Unit-Test   
 The Clean Architecture is a software design pattern that separates the business logic from the presentation layer. This makes the application more modular and easier to test.
 
+https://medium.com/@logtoabhikr/android-multi-module-clean-architecture-mvvm-compose-kotlin-hilt-flow-retrofit-coil-unit-test-eb2ea6a3120c
+
 This project will demonstrate following:
 - Kotlin Programming Language
 - Jetpack Compose
