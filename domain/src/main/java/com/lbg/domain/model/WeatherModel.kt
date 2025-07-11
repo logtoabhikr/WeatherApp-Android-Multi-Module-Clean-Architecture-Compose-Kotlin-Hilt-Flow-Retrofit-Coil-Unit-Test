@@ -12,7 +12,7 @@ data class CurrentModel(
     val humidity: Long,
     val cloud: Long,
     val feelslikeC: Double,
-    val uv: Long,
+    val uv: String? = null,
     val time: String? = null,
 )
 

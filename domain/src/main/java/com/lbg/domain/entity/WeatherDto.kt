@@ -16,7 +16,7 @@ data class Current(
     val cloud: Long,
     @SerializedName("feelslike_c")
     val feelslikeC: Double,
-    val uv: Long,
+    val uv: String? = null,
     val time: String? = null,
 )
 

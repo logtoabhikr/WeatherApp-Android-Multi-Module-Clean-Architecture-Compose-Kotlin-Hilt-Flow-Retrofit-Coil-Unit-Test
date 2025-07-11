@@ -24,8 +24,8 @@ object LBGModule {
     @Singleton
     fun provideLoggerInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.NONE }
-        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.NONE }
+        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.HEADERS }
+        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.BODY }
         return interceptor
     }
 

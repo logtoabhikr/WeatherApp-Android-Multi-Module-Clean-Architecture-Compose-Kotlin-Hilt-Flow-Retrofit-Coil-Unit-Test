@@ -60,10 +60,10 @@ class NetworkBoundResource @Inject constructor(private val dispatcherProvider: D
                     JsonParser.parseString(errorJsonString).asJsonObject[Constants.MESSAGE_PARAMS].asString
                 errorMessage.ifEmpty { Constants.SOMETHING_ERROR }
             } catch (e: Exception) {
-                Constants.UNKNOWN_ERROR
+                e.message.toString()
             }
         }
-        return Constants.UNKNOWN_ERROR
+        return "${throwable?.message}"
     }
 
     private fun code(throwable: Throwable?): Int {

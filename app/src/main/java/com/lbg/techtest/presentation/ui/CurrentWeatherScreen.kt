@@ -176,7 +176,7 @@ fun HeaderWeather(
             Spacer(modifier = Modifier.width(8.dp))
             SubItems(
                 title = LocalContext.current.getString(R.string.str_uv),
-                value = (currentWeather.current?.uv ?: "..").toString()
+                value = (currentWeather.current?.uv ?: "..")
             )
             Spacer(modifier = Modifier.width(8.dp))
             SubItems(

@@ -20,7 +20,7 @@ fun provideWeatherModel(): WeatherModel {
     val currentEntity = CurrentModel(
         tempC = 25.0,
         condition = conditionEntity,
-        uv = 10,
+        uv = "10",
         humidity = 50,
         cloud = 50,
         feelslikeC = 25.0
@@ -46,7 +46,7 @@ fun provideWeatherDto(): WeatherDto {
     val currentDto = Current(
         tempC = 25.0,
         condition = conditionDto,
-        uv = 10,
+        uv = "10",
         humidity = 50,
         cloud = 50,
         feelslikeC = 25.0
