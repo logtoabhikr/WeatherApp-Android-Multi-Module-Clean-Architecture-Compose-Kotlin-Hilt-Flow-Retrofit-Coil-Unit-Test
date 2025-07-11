@@ -77,7 +77,6 @@ fun CurrentWeatherScreen(
                 currentWeatherSate = pageState.data as WeatherModel
         }
 
-        else -> {}
     }
 
     Box(
